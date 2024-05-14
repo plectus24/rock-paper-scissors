@@ -2,25 +2,32 @@ let humanScore, computerScore;
 function getComputerChoice() {
   let random = Math.floor(Math.random() * 100);
   if (random >= 0 && random < 33) {
+    console.log("Computer pick: rock");
     return "rock";
   } else if (random >= 33 && random < 66) {
+    console.log("Computer pick: paper");
     return "paper";
   } else {
+    console.log("Computer pick: scissor");
     return "scissor";
   }
 }
 
 function getHumanChoice() {
   let humanChoice = prompt('Please select "rock", "paper" or "scissor"');
-  if (humanChoice === null) return;
+  if (typeof humanChoice !== "string") {
+    return getComputerChoice();
+  }
+  if (humanChoice === null || undefined) return console.log("Game Interrupted");
   else if (
     humanChoice === "rock" ||
     humanChoice == "paper" ||
     humanChoice == "scissor"
   ) {
+    console.log("Human pick: " + humanChoice);
     return humanChoice;
   } else {
-    getHumanChoice();
+    return getHumanChoice();
   }
 }
 
@@ -75,18 +82,15 @@ function playGame() {
 
   let humanSelection = "";
   for (let i = 0; i < totalGames; i++) {
-    computerSelection = getComputerChoice();
     humanSelection = getHumanChoice();
+    computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
   }
 
-  playRound(humanSelection, computerSelection);
-  playRound(humanSelection, computerSelection);
-  playRound(humanSelection, computerSelection);
-  playRound(humanSelection, computerSelection);
-  playRound(humanSelection, computerSelection);
-
-  console.log(`Final Player Score: ${humanScore}
-                Final Computer Score: ${computerScore}`);
+  console.log(`
+  Total games played: ${totalGames}
+  Final Player Score: ${humanScore}
+  Final Computer Score: ${computerScore}`);
 }
 
 playGame();
